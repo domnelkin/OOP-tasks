@@ -1,5 +1,5 @@
 class Worker {
-    experience = 1.2;
+    #experience = 1.2;
 
     constructor(fullName, dayRate, workingDays) {
         this._fullName = fullName;
@@ -8,40 +8,39 @@ class Worker {
     }
 
     showSalary() {
-        return this._dayRate * this._workingDays;
+        return new Number(this._dayRate * this._workingDays).toFixed(1);
     }
 
     showSalaryWithExperience() {
-        return this.showSalary() * this.experience;
+        return new Number(this.showSalary() * this.#experience).toFixed(1);
     }
 
     set setExp(experience) {
-        this.experience = experience;
+        this.#experience = experience;
     }
 
     get showExp() {
-        return this.experience;
+        return this.#experience;
     }
-
-
 }
 
 const worker1 = new Worker("John Johnson", 20, 23);
-console.log(worker1._fullName);                 
-worker1.showSalary();
-console.log("New experience: " + worker1.showExp);
-worker1.showSalaryWithExperience();
-worker1.setExp = 1.5;
-console.log("New experience: " + worker1.showExp);
-worker1.showSalaryWithExperience();
-
 const worker2 = new Worker("Tom Tomson", 48, 22);
-worker2.setExp = 3;
 const worker3 = new Worker("Andy Ander", 29, 23);
-worker3.setExp = 0.5;
 
-const salaries = [worker1, worker2, worker3];
+const workers = [worker1, worker2, worker3];
 
-salaries.sort((a, b) => a.showSalaryWithExperience() - b.showSalaryWithExperience());
+workers.forEach(worker => {
+    console.log(worker._fullName);                 
+    console.log(`${worker._fullName} salary: ${worker.showSalary()}`);
+    console.log("New experience: " + worker.showExp);
+    console.log(`${worker._fullName} salary: ${worker.showSalaryWithExperience()}`);
+    worker.setExp = Math.random(0.5, 5).toFixed(1);
+    console.log("New experience: " + worker.showExp);
+    console.log(`${worker._fullName} salary: ${worker.showSalaryWithExperience()}\n`);
+});
 
-salaries.forEach(worker => console.log(`${worker._fullName}: ${worker.showSalaryWithExperience()}`));
+workers.sort((a, b) => a.showSalaryWithExperience() - b.showSalaryWithExperience());
+
+console.log("Sorted salary:");
+workers.forEach(worker => console.log(`${worker._fullName}: ${worker.showSalaryWithExperience()}`));
